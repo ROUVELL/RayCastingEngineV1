@@ -104,10 +104,11 @@ class Player:
         x, y = self.level_pos
         sin_a = math.sin(self.angle)
         cos_a = math.cos(self.angle)
+        l = self.game.raycasting.dist * TILE_SIZE
         pg.draw.line(self.game.sc, 'yellow', (x, y),
-                     (x + WIDTH * cos_a, y + WIDTH * sin_a))
+                     (x + l * cos_a, y + l * sin_a))
         pg.draw.circle(self.game.sc, 'green', (x, y), 8)
 
-        mx, my = self.map_pos
-        x, y = mx * TILE_SIZE, my * TILE_SIZE
-        pg.draw.rect(self.game.sc, 'red', (x, y, TILE_SIZE, TILE_SIZE), 1)
+        # mx, my = self.map_pos
+        # x, y = mx * TILE_SIZE, my * TILE_SIZE
+        # pg.draw.rect(self.game.sc, 'red', (x, y, TILE_SIZE, TILE_SIZE), 1)

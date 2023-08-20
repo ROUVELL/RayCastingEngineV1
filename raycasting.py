@@ -1,5 +1,5 @@
 import pygame as pg
-import math
+# import math
 from ctypes import c_int, c_uint8, c_float, Structure, POINTER, CDLL
 
 from uttils import load_texture
@@ -19,6 +19,7 @@ class RayCasting:
     def __init__(self, game):
         self.game = game
         self.to_render = set()
+        self.dist = 1
 
         self.wall_textures = {i: load_texture(f'{i}.png')
                               for i in range(1, 6)}
@@ -57,8 +58,9 @@ class RayCasting:
                 wall_pos = (ray * SCALE, 0)
 
             self.to_render.add((ray_data.depth, wall_column, wall_pos))
-            # if ray == H_NUM_RAYS:
-            #     print(ray_data.depth)
+
+            if ray == H_NUM_RAYS:
+                self.dist = ray_data.depth
 
     # def ray_cast(self):
     #     self.raycast_result = []
