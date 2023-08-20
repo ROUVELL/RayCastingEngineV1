@@ -1,21 +1,30 @@
 #include <math.h>
 #include <stdlib.h>
+#include <stdint.h>
 
 typedef struct {
     float depth;
     float proj_height;
-    int texture;
+    uint8_t texture;
     float offset;
 } RayResult;
 
-RayResult* ray_cast(float ox, float oy,
-		    float angle, int level_w,
-		    int level_h, int level_map[][level_w],
-		    const int NUM_RAYS, const float H_FOV,
-		    const float SCREEN_DIST, const float DELTA_ANGLE) {
+
+RayResult* allocate(int size) {
+    RayResult* array = (RayResult*)malloc(size * sizeof(RayResult));
+    return array;
+}
+
+
+void ray_cast(float ox, float oy,
+	      float angle, int level_w,
+	      int level_h, uint8_t level_map[][level_w],
+              RayResult* result_array,
+       	      const int NUM_RAYS, const float H_FOV,
+	      const float SCREEN_DIST, const float DELTA_ANGLE) {
     int texture_vert, texture_hor;
     int x_map = (int)ox, y_map = (int)oy;
-    RayResult* result = (RayResult*)malloc(NUM_RAYS * sizeof(RayResult));
+    // RayResult* result = (RayResult*)malloc(NUM_RAYS * sizeof(RayResult));
 
     float ray_angle = angle - H_FOV + 0.0001;
     for (int ray = 0; ray < NUM_RAYS; ray++) {
@@ -101,13 +110,11 @@ RayResult* ray_cast(float ox, float oy,
 
         float proj_height = SCREEN_DIST / (depth + 0.0001);
 
-        result[ray].depth = depth;
-        result[ray].proj_height = proj_height;
-        result[ray].texture = texture;
-        result[ray].offset = offset;
+        result_array[ray].depth = depth;
+        result_array[ray].proj_height = proj_height;
+        result_array[ray].texture = texture;
+        result_array[ray].offset = offset;
 
         ray_angle += DELTA_ANGLE;
     }
-
-    return result;
 }
