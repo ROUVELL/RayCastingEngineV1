@@ -20,10 +20,10 @@ class LevelHandler:
         self.width = len(level[0])
         self.height = len(level)
         self.array = level
+
+        self.array_ptr = level.ctypes.data_as(POINTER(POINTER(c_uint8)))
+
         self.map.clear()
-
-        self.array_ptr = test_level.ctypes.data_as(POINTER(POINTER(c_uint8)))
-
         for j, row in enumerate(level):
             for i, value in enumerate(row):
                 if value:
@@ -31,6 +31,12 @@ class LevelHandler:
 
     def is_wall(self, x, y):
         return (x, y) in self.map
+
+    def delete_wall(self, x, y):
+        if self.is_wall(x, y):
+            del self.map[(x, y)]
+            self.array[y, x] = 0
+            self.array_ptr = self.array.ctypes.data_as(POINTER(POINTER(c_uint8)))
 
     # 2d
     def draw(self):

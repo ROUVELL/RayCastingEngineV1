@@ -57,7 +57,7 @@ class SpriteHandler:
         [npc.update() for npc in self.npc]
 
     def draw(self):
-        [pg.draw.circle(self.game.sc, 'blue', sprite.level_pos, 8)
+        [pg.draw.circle(self.game.sc, 'blue', sprite.level_pos, 6)
          for sprite in self.sprites]
-        [pg.draw.circle(self.game.sc, 'red', npc.level_pos, 8)
+        [pg.draw.circle(self.game.sc, 'red', npc.level_pos, 6)
          for npc in self.npc if npc.alive]

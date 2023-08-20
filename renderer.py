@@ -47,7 +47,7 @@ class Renderer:
 
     def debug_info(self):
         pos = self.get_render(f'{self.player.map_pos}')
-        angle = self.get_render(f'{self.game.sprite_handler.sprites[0].screen_x : .2f}')
+        angle = self.get_render(f'{self.player.angle : .2f}')
 
         self.sc.blit(pos, (0, 50))
         self.sc.blit(angle, (0, 80))
@@ -61,5 +61,5 @@ class Renderer:
         self.player.draw()
         self.game.sprite_handler.draw()
         self.fps()
-        # self.debug_info()
+        self.debug_info()
         pg.display.flip()

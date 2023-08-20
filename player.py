@@ -13,6 +13,9 @@ class Player:
         self.angle = 0
         self.rel = 0
 
+        self.sin_a = 0.0
+        self.cos_a = 0.0
+
         self.weapon = Weapon(self)
         self.health = PLAYER_MAX_HEALTH
         self.injured = False
@@ -29,6 +32,7 @@ class Player:
     @property
     def level_pos(self):
         return self.x * TILE_SIZE, self.y * TILE_SIZE
+
 
     def on_init(self):
         self.level = self.game.level_handler
@@ -49,11 +53,9 @@ class Player:
 
     def movement(self):
         dx, dy = 0, 0
-        sin_a = math.sin(self.angle)
-        cos_a = math.cos(self.angle)
         speed = self.speed * self.game.dt
-        speed_sin = speed * sin_a
-        speed_cos = speed * cos_a
+        speed_sin = speed * self.sin_a
+        speed_cos = speed * self.cos_a
 
         pressed = 0
         keys = pg.key.get_pressed()
@@ -86,28 +88,33 @@ class Player:
         self.angle += self.rel * MOUSE_SENSETIVITY * self.game.dt
         self.angle %= math.tau
 
+        self.sin_a = math.sin(self.angle)
+        self.cos_a = math.cos(self.angle)
+
     def process_events(self, event):
         if event.type == pg.MOUSEBUTTONDOWN:
             if event.button == 1 and not self.shoting and not self.weapon.reloading:
                 self.sound.shot.play()
                 self.shoting = True
                 self.weapon.reloading = True
+            if event.button == 3:
+                dist = self.game.raycasting.dist + 0.1
+                x, y = int(self.x + self.cos_a * dist), int(self.y + self.sin_a * dist)
+                self.level.delete_wall(x, y)
 
     def update(self):
         self.injured = False
-        self.movement()
         self.rotation()
+        self.movement()
         self.weapon.update()
 
     # 2d
     def draw(self):
         x, y = self.level_pos
-        sin_a = math.sin(self.angle)
-        cos_a = math.cos(self.angle)
         l = self.game.raycasting.dist * TILE_SIZE
         pg.draw.line(self.game.sc, 'yellow', (x, y),
-                     (x + l * cos_a, y + l * sin_a))
-        pg.draw.circle(self.game.sc, 'green', (x, y), 8)
+                     (x + l * self.cos_a, y + l * self.sin_a))
+        pg.draw.circle(self.game.sc, 'green', (x, y), 6)
 
         # mx, my = self.map_pos
         # x, y = mx * TILE_SIZE, my * TILE_SIZE

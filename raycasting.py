@@ -38,19 +38,22 @@ class RayCasting:
 
     def get_walls(self):
         self.to_render = set()
-        for ray in range(NUM_RAYS):
-            ray_data = self.raycast_result[ray]
-            proj_height = ray_data.proj_height
+        for ray, ray_data in enumerate(self.raycast_result):
 
+            texture_num = ray_data.texture
+            if texture_num == 0:
+                continue
+
+            proj_height = ray_data.proj_height
             if proj_height < HEIGHT:
-                wall_column = self.wall_textures[ray_data.texture].subsurface(
+                wall_column = self.wall_textures[texture_num].subsurface(
                     ray_data.offset * (TEXTURE_SIZE - SCALE), 0, SCALE, TEXTURE_SIZE
                 )
                 wall_column = pg.transform.scale(wall_column, (SCALE, proj_height))
                 wall_pos = (ray * SCALE, H_HEIGHT - proj_height // 2)
             else:
                 texture_height = TEXTURE_H_COEF / proj_height
-                wall_column = self.wall_textures[ray_data.texture].subsurface(
+                wall_column = self.wall_textures[texture_num].subsurface(
                     ray_data.offset * (TEXTURE_SIZE - SCALE), H_TEXTURE_SIZE - texture_height // 2,
                     SCALE, texture_height
                 )

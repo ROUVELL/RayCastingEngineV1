@@ -28,8 +28,8 @@ void ray_cast(float ox, float oy,
 
     float ray_angle = angle - H_FOV + 0.0001;
     for (int ray = 0; ray < NUM_RAYS; ray++) {
-	texture_vert = 5;
-	texture_hor = 5;
+	texture_vert = 0;
+	texture_hor = 0;
 
         float sin_a = sin(ray_angle);
         float cos_a = cos(ray_angle);
