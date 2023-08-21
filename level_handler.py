@@ -19,9 +19,9 @@ class LevelHandler:
     def get_map(self, level):
         self.width = len(level[0])
         self.height = len(level)
-        self.array = level
 
-        self.array_ptr = level.ctypes.data_as(POINTER(POINTER(c_uint8)))
+        self.array = level
+        self.array_ptr = self.array.ctypes.data_as(POINTER(POINTER(c_uint8)))
 
         self.map.clear()
         for j, row in enumerate(level):

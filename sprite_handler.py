@@ -31,7 +31,7 @@ class SpriteHandler:
         # add_sprite(AnimatedSprite(self.game, 'green_light', (7.5, 7.5)))
         # add_sprite(AnimatedSprite(self.game, 'red_light', (10.5, 5.5)))
 
-        for i in range(20):
+        for i in range(10):
             x, y = randint(6, 29) + 0.5, randint(6, 29) + 0.5
             add_npc(Soldier(self.game, (x, y)))
         # add_npc(CacoDemon(self.game, (17.5, 20.5)))
