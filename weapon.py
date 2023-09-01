@@ -1,5 +1,4 @@
 import pygame as pg
-from collections import deque
 
 from sprite import AnimatedObject
 from uttils import load_animation
@@ -12,10 +11,10 @@ class Weapon(AnimatedObject):
         self.game = owner.game
         self.owner = owner
 
-        self.images = deque([
+        self.images = tuple(
             pg.transform.smoothscale(img, (img.get_width() * scale, img.get_height() * scale))
             for img in load_animation(dir_name)
-        ])
+        )
         self.image = self.images[0]
         self.num_images = len(self.images)
         self.frame = 0
@@ -27,12 +26,11 @@ class Weapon(AnimatedObject):
     def animate(self):
         if self.reloading:
             if self.animation_trigger:
-                self.images.rotate(-1)
-                self.image = self.images[0]
                 self.frame += 1
                 if self.frame == self.num_images:
                     self.reloading = False
                     self.frame = 0
+                self.image = self.images[self.frame]
 
     def draw(self):
         self.game.sc.blit(self.image, self.position)

@@ -1,5 +1,3 @@
-import pygame as pg
-
 from uttils import load_sound, load_music
 
 

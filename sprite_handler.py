@@ -11,8 +11,8 @@ from settings import DELETE_DELAY
 class SpriteHandler:
     def __init__(self, game):
         self.game = game
-        self.sprites = []
-        self.npc = []
+        self.sprites = set()
+        self.npc = set()
         self.npc_positions = set()
         self.delete_event = pg.USEREVENT
         self.spawn()
@@ -38,14 +38,14 @@ class SpriteHandler:
         # add_npc(CyberDemon(self.game, (27.5, 27.5)))
 
     def add_sprite(self, sprite):
-        self.sprites.append(sprite)
+        self.sprites.add(sprite)
 
     def add_npc(self, npc):
         self.npc_positions.add(npc.map_pos)
-        self.npc.append(npc)
+        self.npc.add(npc)
 
     def clear_level(self):
-        self.npc = list(filter(lambda npc: not npc.need_delete, self.npc))
+        self.npc = {npc for npc in self.npc if not npc.need_delete}
         self.npc_positions = {npc.map_pos for npc in self.npc if npc.alive}
 
     def process_events(self, event):

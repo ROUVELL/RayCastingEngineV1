@@ -8,7 +8,7 @@ SCREEN = WIDTH, HEIGHT = 1920, 1080
 CENTER = H_WIDTH, H_HEIGHT = WIDTH >> 1, HEIGHT >> 1
 
 # fps
-FPS = 0
+FPS = 60
 
 # tile
 TILE_SIZE = 20

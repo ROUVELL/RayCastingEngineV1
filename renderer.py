@@ -1,5 +1,4 @@
 import pygame as pg
-from math import degrees as to_degrees
 
 from uttils import load_texture
 from settings import *

@@ -1,5 +1,4 @@
 import pygame as pg
-# import math
 from ctypes import c_int, c_uint8, c_float, Structure, POINTER, CDLL
 
 from uttils import load_texture
@@ -134,9 +133,8 @@ class RayCasting:
     #         ray_angle += DELTA_ANGLE
 
     def fast_ray_cast(self):
-        ox, oy = self.player.pos
-        angle = self.player.angle
-        self.c_ray_cast(ox, oy, angle,
+        self.c_ray_cast(*self.player.pos,
+                        self.player.angle,
                         self.level.width,
                         self.level.height,
                         self.level.array_ptr,
